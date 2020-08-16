@@ -1,4 +1,4 @@
 function SaveData
   appdata = guidata(gcf);
-  save("dbDummy.mat", appdata);
+  save dbDummy.mat appdata;
 endfunction

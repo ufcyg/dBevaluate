@@ -15,12 +15,19 @@ function BuildUI(appdata)
                       "style","pushbutton" ,
                       "string", "<=", 
                       "position",[0 10 50 36],
-                      "callback",{@SwitchEntry,1});
+                      "callback", {@SwitchEntry,1});
   nextEntryB = uicontrol (figureHandle,
-                      "style","pushbutton" ,
+                      "style","pushbutton",
                       "string", "=>", 
                       "position",[xEnd-50 10 50 36],
-                      "callback",{@SwitchEntry,0});
+                      "callback", {@SwitchEntry,0});
+  ###
+  ### Add Navigation buttons
+  saveB = uicontrol (figureHandle,
+                      "style","pushbutton" ,
+                      "string", "Save", 
+                      "position",[xEnd/2-25 10 50 36],
+                      "callback", {@SaveData});
   ###
   ####          
   ####
@@ -32,10 +39,10 @@ function BuildUI(appdata)
   appdata.UI.currentEntryPanel = currentEntryPanel;
   ## GOTO entry button
   goToEntryB = uicontrol (figureHandle,
-                      "style","pushbutton" ,
+                      "style","pushbutton",
                       "string", "Goto", 
                       "position",[210 yEnd-40 50 40],
-                      "callback",{@SwitchEntry,2});
+                      "callback", {@SwitchEntry,2});
   ###
   ####
   ####
@@ -49,7 +56,7 @@ function BuildUI(appdata)
   ### Panel DataTarget
   dataTargetPanel = uipanel(figureHandle,
   "Position",[ 0 .05 1 .475],
-  "Title","ZielDaten");
+  "Title","Zieldaten");
   ###
   ####
   ####

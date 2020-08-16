@@ -1,5 +1,8 @@
 function SwitchEntry(h,evt,direction)
   SaveData();
+  if !isnumeric(direction)
+    direction = str2num(direction);
+  endif
   switch (direction)
       case 0
       data = guidata(gcf);
@@ -32,16 +35,19 @@ function entry = CircleSwap(triedEntry)
 endfunction
 
 function entry = CapEntry(triedEntry)
+  currentEntry = guidata(gcf).UI.currentEntry;
+  maxSize = guidata(gcf).data.action.size;
+  
   triedEntry = str2num(triedEntry);
   if size(triedEntry,1) > 0
-    entry = round(triedEntry(1));  
+    entry = round(triedEntry(1));
   else
-    entry = 1;
+    entry = currentEntry;
     errordlg("You Dummy!");
   endif
   if entry <1
     entry = 1;
-  elseif entry > guidata(gcf).UI.currentEntry
-    entry = guidata(gcf).data.action.size;
+  elseif entry > maxSize
+    entry = maxSize;
   endif
 endfunction
