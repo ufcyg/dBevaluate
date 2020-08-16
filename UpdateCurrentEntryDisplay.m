@@ -1,5 +1,7 @@
-function UpdateCurrentEntryDisplay(handle, currentEntry)
-  set(handle,
-            "Title",strcat("CurrentEntry: ",num2str(currentEntry)))
-  #guidata(gcf, guidata(gcf).UI.currentEntry = num2str(currentEntry));
+function UpdateCurrentEntryDisplay(currentEntry)
+  data = guidata(gcf);
+  if isnumeric(currentEntry)
+    currentEntry = num2str(currentEntry);
+  endif
+  set(data.UI.gotoIF,"string",currentEntry);
 endfunction

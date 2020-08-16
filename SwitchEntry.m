@@ -7,17 +7,17 @@ function SwitchEntry(h,evt,direction)
       case 0
       data = guidata(gcf);
       data.UI.currentEntry = CircleSwap(++data.UI.currentEntry);
-      UpdateCurrentEntryDisplay(data.UI.currentEntryPanel,data.UI.currentEntry);
+      UpdateCurrentEntryDisplay(data.UI.currentEntry);
       case 1
         data = guidata(gcf);
         data.UI.currentEntry = CircleSwap(--data.UI.currentEntry);
-        UpdateCurrentEntryDisplay(data.UI.currentEntryPanel,data.UI.currentEntry);
+        UpdateCurrentEntryDisplay(data.UI.currentEntry);
       case 2
-        cstr = inputdlg ("EntryID", "GOTO Entry", 1);
-        cstr = CapEntry(cstr{});
+        #cstr = inputdlg ("EntryID", "GOTO Entry", 1);
+        #cstr = CapEntry(cstr{});
         data = guidata(gcf);
-        data.UI.currentEntry = cstr;
-        UpdateCurrentEntryDisplay(data.UI.currentEntryPanel,data.UI.currentEntry);
+        data.UI.currentEntry = CapEntry(get(data.UI.gotoIF).string);
+        UpdateCurrentEntryDisplay(data.UI.currentEntry);
    endswitch
    guidata(gcf,data);
    UpdateDisplayedData();
