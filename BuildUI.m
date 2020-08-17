@@ -4,12 +4,12 @@ function BuildUI(appdata)
   
   ### Create mainFigure
   figureHandle = figure(
-  "Position", [xStart, yStart, xEnd, yEnd],
-  "numbertitle", "off", 
-  "name", "dBevaluate",
-  "resize","off",
-  "toolbar","none",
-  "menubar","none");
+                      "Position", [xStart, yStart, xEnd, yEnd],
+                      "numbertitle", "off", 
+                      "name", "dBevaluate",
+                      "resize","off",
+                      "toolbar","none",
+                      "menubar","none");
   ### Add Navigation buttons
   buttonWidth = 250;
   buttonHeight = 42;
@@ -35,62 +35,57 @@ function BuildUI(appdata)
   ####          
   ####
   ### CurrentEntry Display
-  currentEntryPanel = uipanel(figureHandle,
-  "Position",[ 0.01 0.96 .125 .03],
-  "title", "EintragsID");
-
-  
-  appdata.UI.currentEntryPanel = currentEntryPanel;
+  currentEntryPanelSite = uipanel(figureHandle,
+                                  "Position",[ 0.01 0.96 .1 .03],
+                                  "title", "EintragsID Anlage");
   ## GOTO entry inputfield
-  appdata.UI.gotoIF = uicontrol (figureHandle,
+  appdata.UI.gotoIFSite = uicontrol (figureHandle,
+                                    "style","edit",
+                                    "string", "-1", 
+                                    "position",[150 yEnd-40 100 40],
+                                    "callback", {@SwitchEntry,2});
+                      ### CurrentEntry Display
+  currentEntryPanel = uipanel(figureHandle,
+  "Position",[ 0.2 0.96 .1 .03],
+  "title", "EintragsID Aktion");
+  ## GOTO entry inputfield
+  appdata.UI.gotoIFAction = uicontrol (figureHandle,
                       "style","edit",
                       "string", "-1", 
-                      "position",[125 yEnd-40 100 40],
-                      "callback", {@SwitchEntry,2});
+                      "position",[450 yEnd-40 100 40],
+                      "callback", {@SwitchEntry,3});
+                      
   guidata(figureHandle, appdata);
-  UpdateCurrentEntryDisplay(appdata.UI.currentEntry);
+  UpdateCurrentEntryDisplay(appdata.UI.currentEntrySite,appdata.UI.currentEntryAction);
   ###
   ####
-  ####
-  ### Panel DataOrigin
-  appdata.UI.dataOriginBG = uibuttongroup(figureHandle,
-  "Position",[ 0 .485 1 .460],
-  "Title","Ursprungsdaten");
-  ###
-  dataOriginBG = uibuttongroup(appdata.UI.dataOriginBG,
-  "Position",[0 0 .25 .975],
-  "clipping","on",
-  "Title","Ansprechpartner");
-  ### Input Field
-  appdata.UI.originIF.ansprechpartner = uicontrol (dataOriginBG,
-                      "clipping","on",
-                      "units","normalized",
-                      "style","listbox",
-                      "position",[0 0.5 1 1],
-                      "horizontalalignment","center",
-                      "verticalalignment","middle",
-                      "string", "asdwx");
-  ####[xEnd/2 yEnd - yEnd/4 100 40]
   ####
   ### Panel DataTarget
   dataTargetBG = uibuttongroup(figureHandle,
-  "position",[ 0 .05 1 .460],
-  "Title","Zieldaten");
+  "Position",[ 0 .05 1 .9]);
+  ansprechpartnerBG = uibuttongroup(dataTargetBG,
+  "units","normalized",
+  "Position",[ 0 .925 .95 .075],
+  "title","Ansprechpartner/Hausmeister");
+  appdata.UI.ansprechpartnerNAME = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position", [0 0 .3 1]);
+  appdata.UI.ansprechpartnerTEL = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position", [0.33 0 .3 1]);
+  appdata.UI.ansprechpartnerMAIL = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position", [0.66 0 .3 1]);
+   editB1 = uicontrol (dataTargetBG,
+                      "style","pushbutton",
+                      "units","normalized",
+                      "string", "Bearbeiten", 
+                      "position",[.95 .875 .05 .1],
+                      "callback", {@ShowRawDataAnsprechpartnerKundenkontakt,2});
+                      
+  kundenkontaktBG = uibuttongroup(dataTargetBG,
+  "units","normalized",
+  "Position",[ 0 .85 .95 .075],
+  "title","Kundenkontakt");
+  appdata.UI.kundenkontaktNAME = uicontrol(kundenkontaktBG, "style","edit","units","normalized", "position", [0 0 .3 1]);
+  appdata.UI.kundenkontaktTEL = uicontrol(kundenkontaktBG, "style","edit","units","normalized", "position", [0.33 0 .3 1]);
+  appdata.UI.kundenkontaktMAIL = uicontrol(kundenkontaktBG, "style","edit","units","normalized", "position", [0.66 0 .3 1]);
+  
   ###
-  ####
-  ####
-  ###
-
-
-
-
-
-
-  ### PANEL Ansprechpartner/Hausmeister Split
-  % create a button group
-  #gp = uibuttongroup (figureHandle, 
-  #"Position", [ 0 0.05 1 .45]);
-  % create a button group
-  #gp = uibuttongroup (figureHandle, "Position", [ 0 0.5 1 1]);
   guidata(figureHandle, appdata);
+  UpdateDisplayedData();  
 endfunction

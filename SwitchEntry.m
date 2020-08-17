@@ -1,41 +1,43 @@
 function SwitchEntry(h,evt,direction)
-  SaveData();
   if !isnumeric(direction)
     direction = str2num(direction);
   endif
   switch (direction)
       case 0
-      data = guidata(gcf);
-      data.UI.currentEntry = CircleSwap(++data.UI.currentEntry);
-      UpdateCurrentEntryDisplay(data.UI.currentEntry);
+        data = guidata(gcf);
+        data.UI.currentEntrySite = CircleSwap(++data.UI.currentEntrySite, data.data.site.size);
+        data.UI.currentEntryAction = CircleSwap(++data.UI.currentEntryAction, data.data.action.size);
+        UpdateCurrentEntryDisplay(data.UI.currentEntrySite, data.UI.currentEntryAction);
       case 1
         data = guidata(gcf);
-        data.UI.currentEntry = CircleSwap(--data.UI.currentEntry);
-        UpdateCurrentEntryDisplay(data.UI.currentEntry);
+        data.UI.currentEntrySite = CircleSwap(--data.UI.currentEntrySite, data.data.site.size);
+        data.UI.currentEntryAction = CircleSwap(--data.UI.currentEntryAction, data.data.action.size);
+        UpdateCurrentEntryDisplay(data.UI.currentEntrySite, data.UI.currentEntryAction);
       case 2
-        #cstr = inputdlg ("EntryID", "GOTO Entry", 1);
-        #cstr = CapEntry(cstr{});
         data = guidata(gcf);
-        data.UI.currentEntry = CapEntry(get(data.UI.gotoIF).string);
-        UpdateCurrentEntryDisplay(data.UI.currentEntry);
+        data.UI.currentEntrySite = CapEntry(get(data.UI.gotoIFSite).string,data.UI.currentEntrySite);
+        UpdateCurrentEntryDisplay(data.UI.currentEntrySite, data.UI.currentEntryAction);
+      case 3
+        data = guidata(gcf);
+        data.UI.currentEntryAction = CapEntry(get(data.UI.gotoIFAction).string,data.UI.currentEntrySite);
+        UpdateCurrentEntryDisplay(data.UI.currentEntrySite, data.UI.currentEntryAction);
    endswitch
    guidata(gcf,data);
    UpdateDisplayedData();
 endfunction
 
 
-function entry = CircleSwap(triedEntry)
+function entry = CircleSwap(triedEntry, maxSize)
   if triedEntry < 1
     entry = guidata(gcf).data.action.size;
   elseif triedEntry > guidata(gcf).data.action.size
-    entry = 1;
+    entry = 2;
   else
     entry = triedEntry;
   endif
 endfunction
 
-function entry = CapEntry(triedEntry)
-  currentEntry = guidata(gcf).UI.currentEntry;
+function entry = CapEntry(triedEntry,currentEntry)
   maxSize = guidata(gcf).data.action.size;
   
   triedEntry = str2num(triedEntry);
@@ -45,8 +47,8 @@ function entry = CapEntry(triedEntry)
     entry = currentEntry;
     errordlg("You Dummy!");
   endif
-  if entry <1
-    entry = 1;
+  if entry < 2
+    entry = 2;
   elseif entry > maxSize
     entry = maxSize;
   endif

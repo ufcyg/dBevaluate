@@ -1,7 +1,11 @@
-function UpdateCurrentEntryDisplay(currentEntry)
+function UpdateCurrentEntryDisplay(currentEntrySite, currentEntryAction)
   data = guidata(gcf);
-  if isnumeric(currentEntry)
-    currentEntry = num2str(currentEntry);
+  if isnumeric(currentEntrySite)
+    currentEntrySite = num2str(currentEntrySite);
   endif
-  set(data.UI.gotoIF,"string",currentEntry);
+  if isnumeric(currentEntryAction)
+    currentEntryAction = num2str(currentEntryAction);
+  endif
+  set(data.UI.gotoIFSite,"string",currentEntrySite);
+  set(data.UI.gotoIFAction,"string",currentEntryAction);
 endfunction
