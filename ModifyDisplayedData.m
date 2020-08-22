@@ -1,3 +1,7 @@
 function ModifyDisplayedData(handle,string)
-  set(handle,"string",string);
+  if !isempty(string)
+    set(handle,"string",string);
+  else
+    set(handle,"string","");
+  endif
 endfunction
