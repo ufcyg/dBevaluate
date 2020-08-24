@@ -1,15 +1,12 @@
-disp(strcat("Starting dBevaluate..."," - ",ctime(time())));
-clc;
-clear;
-disp(strcat("Loading packages..."," - ",ctime(time())));
-pkg load io;
-disp(strcat("...done", " - ", ctime(time())));
+clear; #clears table of variables
+clc;  #clears contents of CLI#
 
+disp(strcat("Starting dBevaluate..."," - ",ctime(time())));
 disp(strcat("Loading data..."," - ",ctime(time())));
 #load("dbDummy.mat");
-load("dbConverted.mat");
+load("dbConverted.mat"); #load data created by dBconstruct
 disp(strcat("...done", " - ", ctime(time())));
-#save -mat7-binary dbConverted.mat appdata;
+
 disp(strcat("Loading UI..."," - ",ctime(time())));
-BuildUI(appdata);
+BuildUI(appdata); #build GUI
 disp(strcat("...done", " - ", ctime(time())));

@@ -1,3 +1,4 @@
+### calculates GUI dimensions depending on given offsets and the actual screensize
 function [xStart, yStart, xEnd, yEnd] = GetFigureDimensions(xOffset,yOffset)
   screenDims = get(groot, 'ScreenSize');
   xStart = xOffset;

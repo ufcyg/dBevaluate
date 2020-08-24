@@ -1,3 +1,4 @@
+###deprecated
 function ShowDataAddress(h,evt)
   data = guidata(gcf);
   currentIndex = data.UI.currentEntrySite;

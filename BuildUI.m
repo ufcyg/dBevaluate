@@ -1,6 +1,7 @@
+###builds the UI and saves loaded data to figure for further editing
 function BuildUI(appdata)
   
-  [xStart, yStart, xEnd, yEnd] = GetFigureDimensions(125,125);
+  [xStart, yStart, xEnd, yEnd] = GetFigureDimensions(100,100); #get figure dimensions with x and y offsets as input variable
   
   ### Create mainFigure
   figureHandle = figure(
@@ -13,9 +14,9 @@ function BuildUI(appdata)
   ###
   ####
   ####
-  ### Add Kunde (HV,…) NameDisplay
+  ### Add Kunde (HV,…) NameDisplay and SiteID
   appdata.UI.currentCustomerName = uipanel(figureHandle,
-                                  "Position",[ .5 0.96 .4 .03],
+                                  "Position",[ .25 0.96 .65 .03],
                                   "units","normalized");
   ###
   ####
@@ -54,23 +55,24 @@ function BuildUI(appdata)
                                     "string", "-1", 
                                     "position",[150 yEnd-40 100 40],
                                     "callback", {@SwitchEntry,2});
-                      ### CurrentEntry Display
-  currentEntryPanel = uipanel(figureHandle,
+  ### CurrentEntry Display
+  currentEntryPanelAktion = uipanel(figureHandle,
                               "Position",[ 0.2 0.96 .1 .03],
-                              "title", "EintragsID Aktion");
+                              "title", "EintragsID Aktion",
+                              "visible","off");
   ## GOTO entry inputfield
   appdata.UI.gotoIFAction = uicontrol (figureHandle,
                       "style","edit",
                       "string", "-1", 
                       "position",[450 yEnd-40 100 40],
-                      "callback", {@SwitchEntry,3});
+                      "callback", {@SwitchEntry,3},
+                      "visible","off");
                       
-  guidata(figureHandle, appdata);
-  UpdateCurrentEntryDisplay(appdata.UI.currentEntrySite,appdata.UI.currentEntryAction);
+  
   ###
   ####
   ####
-  ### Panel DataTarget
+  ### 
   dataTargetBG = uibuttongroup(figureHandle,
                                "Position",[ 0 .05 1 .9]);
   ansprechpartnerBG = uibuttongroup(dataTargetBG,
@@ -86,7 +88,8 @@ function BuildUI(appdata)
                       "string", "Bearbeiten", 
                       "position",[.95 .875 .05 .1],
                       "callback", {@ShowRawDataAnsprechpartnerKundenkontakt});
-                      
+  ###  
+  ###  
   kundenkontaktBG = uibuttongroup(dataTargetBG,
                                   "units","normalized",
                                   "Position",[ 0 .85 .95 .075],
@@ -94,92 +97,55 @@ function BuildUI(appdata)
   appdata.UI.kundenkontaktNAME = uicontrol(kundenkontaktBG, "style","edit","units","normalized", "position", [0 0 .3 1]);
   appdata.UI.kundenkontaktTEL = uicontrol(kundenkontaktBG, "style","edit","units","normalized", "position", [0.33 0 .3 1]);
   appdata.UI.kundenkontaktMAIL = uicontrol(kundenkontaktBG, "style","edit","units","normalized", "position", [0.66 0 .3 1]);
-  addressBG = uibuttongroup(dataTargetBG,
-                                  "units","normalized",
-                                  "Position",[ 0 .775 .95 .075],
-                                  "title","Adresseintrag");
-  appdata.UI.streetIF = uicontrol(addressBG, "style","edit","units","normalized", "position",[0 0 .85 1]);
-  appdata.UI.housenumberIF = uicontrol(addressBG, "style","edit","units","normalized", "position",[.88 0 .11 1]);
-  editB2 = uicontrol (dataTargetBG,
-                      "style","pushbutton",
-                      "units","normalized",
-                      "string", "Bearbeiten", 
-                      "position",[.95 .78 .05 .05],
-                      "callback", {@ShowDataAddress});
+  ###
+  ####
+  ####
+  ### 
   kundeLabbaseIDBG = uibuttongroup(dataTargetBG,
                                   "units","normalized",
-                                  "Position",[ 0 .7 .95 .075],
+                                  "Position",[ 0 .775 .95 .075],
                                   "title","Kunde Labbase ID");
   appdata.UI.kundeLabbaseID = uicontrol(kundeLabbaseIDBG, "style","edit","units","normalized", "position",[0 0 1 1]);
   editB3 = uicontrol (dataTargetBG,
                       "style","pushbutton",
                       "units","normalized",
                       "string", "Bearbeiten", 
-                      "position",[.95 .705 .05 .05],
+                      "position",[.95 .775 .05 .05],
                       "callback", {@ShowKundeLabbaseID});
   ###
   ####
   ####
   ### Versorgte Häuser
-  ansprechpartnerBG = uibuttongroup(dataTargetBG,
+  suppliedHousesBG = uibuttongroup(dataTargetBG,
                                     "units","normalized",
-                                    "Position",[ 0 0.01 .95 .695],
+                                    "Position",[ 0 0.15 .95 .625],
                                     "title","Versorgte Häuser");
-  appdata.UI.suppliedHouseStreet1 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0 0.9 .45 .08]);
-  appdata.UI.suppliedHouseNumber1 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.45 0.9 .05 .08]);
-  appdata.UI.suppliedHouseStreet2 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0 0.8 .45 .08]);
-  appdata.UI.suppliedHouseNumber2 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.45 0.8 .05 .08]);
-  appdata.UI.suppliedHouseStreet3 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0 0.7 .45 .08]);
-  appdata.UI.suppliedHouseNumber3 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.45 0.7 .05 .08]);
-  appdata.UI.suppliedHouseStreet4 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0 0.6 .45 .08]);
-  appdata.UI.suppliedHouseNumber4 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.45 0.6 .05 .08]);
-  appdata.UI.suppliedHouseStreet5 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0 0.5 .45 .08]);
-  appdata.UI.suppliedHouseNumber5 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.45 0.5 .05 .08]);
-  appdata.UI.suppliedHouseStreet6 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0 0.4 .45 .08]);
-  appdata.UI.suppliedHouseNumber6 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.45 0.4 .05 .08]);
-  appdata.UI.suppliedHouseStreet7 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0 0.3 .45 .08]);
-  appdata.UI.suppliedHouseNumber7 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.45 0.3 .05 .08]);
-  appdata.UI.suppliedHouseStreet8 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0 0.2 .45 .08]);
-  appdata.UI.suppliedHouseNumber8 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.45 0.2 .05 .08]);
-  appdata.UI.suppliedHouseStreet9 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0 0.1 .45 .08]);
-  appdata.UI.suppliedHouseNumber9 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.45 0.1 .05 .08]);
-  appdata.UI.suppliedHouseStreet10 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0 0 .45 .08]);
-  appdata.UI.suppliedHouseNumber10 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.45 0 .05 .08]);
-  #
-  appdata.UI.suppliedHouseStreet11 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.5 0.9 .45 .08]);
-  appdata.UI.suppliedHouseNumber11 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.95 0.9 .05 .08]);
-  appdata.UI.suppliedHouseStreet12 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.5 0.8 .45 .08]);
-  appdata.UI.suppliedHouseNumber12 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.95 0.8 .05 .08]);
-  appdata.UI.suppliedHouseStreet13 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.5 0.7 .45 .08]);
-  appdata.UI.suppliedHouseNumber13 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.95 0.7 .05 .08]);
-  appdata.UI.suppliedHouseStreet14 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.5 0.6 .45 .08]);
-  appdata.UI.suppliedHouseNumber14 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.95 0.6 .05 .08]);
-  appdata.UI.suppliedHouseStreet15 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.5 0.5 .45 .08]);
-  appdata.UI.suppliedHouseNumber15 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.95 0.5 .05 .08]);
-  appdata.UI.suppliedHouseStreet16 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.5 0.4 .45 .08]);
-  appdata.UI.suppliedHouseNumber16 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.95 0.4 .05 .08]);
-  appdata.UI.suppliedHouseStreet17 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.5 0.3 .45 .08]);
-  appdata.UI.suppliedHouseNumber17 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.95 0.3 .05 .08]);
-  appdata.UI.suppliedHouseStreet18 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.5 0.2 .45 .08]);
-  appdata.UI.suppliedHouseNumber18 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.95 0.2 .05 .08]);
-  appdata.UI.suppliedHouseStreet19 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.5 0.1 .45 .08]);
-  appdata.UI.suppliedHouseNumber19 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.95 0.1 .05 .08]);
-  appdata.UI.suppliedHouseStreet20 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.5 0 .45 .08]);
-  appdata.UI.suppliedHouseNumber20 = uicontrol(ansprechpartnerBG, "style","edit","units","normalized", "position",[0.95 0 .05 .08]);
-  
+                                    
+  #for loops generating 2x10 input fields for suppliedHouses
+  for i = 1:1:10 
+    appdata.UI.(genvarname(strcat("suppliedHouseStreet",num2str(i)))) = uicontrol(suppliedHousesBG, "style","edit","units","normalized", "position",[0 0.9-((i-1)*.1) .45 .08]);
+    appdata.UI.(genvarname(strcat("suppliedHouseNumber",num2str(i)))) = uicontrol(suppliedHousesBG, "style","edit","units","normalized", "position",[0.45 0.9-((i-1)*.1) .05 .08]);
+  endfor
+  set(appdata.UI.suppliedHouseStreet1,"backgroundcolor", [0.25 .75 0]);
+  set(appdata.UI.suppliedHouseNumber1,"backgroundcolor", [0.25 .75 0]);
+  for i = 11:1:20
+    appdata.UI.(genvarname(strcat("suppliedHouseStreet",num2str(i)))) = uicontrol(suppliedHousesBG, "style","edit","units","normalized", "position",[0.5 0.9-((i-11)*.1) .45 .08]);
+    appdata.UI.(genvarname(strcat("suppliedHouseNumber",num2str(i)))) = uicontrol(suppliedHousesBG, "style","edit","units","normalized", "position",[0.95 0.9-((i-11)*.1) .05 .08]);
+  endfor
   editB4 = uicontrol (dataTargetBG,
                       "style","pushbutton",
                       "units","normalized",
                       "string", "Bearbeiten", 
-                      "position",[.95 .45 .05 .05],
+                      "position",[.2 .1 .05 .05],
                       "callback", {@ShowSuppliedHouses,0});
   editB4 = uicontrol (dataTargetBG,
                       "style","pushbutton",
                       "units","normalized",
                       "string", "Bearbeiten", 
-                      "position",[.95 .15 .05 .05],
+                      "position",[.66 .1 .05 .05],
                       "callback", {@ShowSuppliedHouses,1});
   
   guidata(figureHandle, appdata);
-  UpdateDisplayedData();  
+  UpdateCurrentEntryDisplay(appdata.UI.currentEntrySite,appdata.UI.currentEntryAction); # set entry display to current entryID
+  UpdateDisplayedData(); # fill input fields with available data
 endfunction

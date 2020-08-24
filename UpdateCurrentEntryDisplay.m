@@ -1,3 +1,4 @@
+###updates display of currently selected entry visible for the user
 function UpdateCurrentEntryDisplay(currentEntrySite, currentEntryAction)
   data = guidata(gcf);
   if isnumeric(currentEntrySite)
