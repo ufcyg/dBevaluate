@@ -45,22 +45,23 @@ function BuildUI(appdata)
   ###
   ####          
   ####
-  ### CurrentEntry Display
+  ### currentEntrySite Display
   currentEntryPanelSite = uipanel(figureHandle,
                                   "Position",[ 0.01 0.96 .1 .03],
                                   "title", "EintragsID Anlage");
-  ## GOTO entry inputfield
+  ## GOTO entrySite inputfield
   appdata.UI.gotoIFSite = uicontrol (figureHandle,
                                     "style","edit",
                                     "string", "-1", 
                                     "position",[150 yEnd-40 100 40],
                                     "callback", {@SwitchEntry,2});
-  ### CurrentEntry Display
+  
+  ### currentEntryAction Display DEPRECATED
   currentEntryPanelAktion = uipanel(figureHandle,
                               "Position",[ 0.2 0.96 .1 .03],
                               "title", "EintragsID Aktion",
                               "visible","off");
-  ## GOTO entry inputfield
+  ## GOTO entryAction inputfield DEPRECATED
   appdata.UI.gotoIFAction = uicontrol (figureHandle,
                       "style","edit",
                       "string", "-1", 
@@ -145,7 +146,7 @@ function BuildUI(appdata)
                       "position",[.66 .1 .05 .05],
                       "callback", {@ShowSuppliedHouses,1});
   
-  guidata(figureHandle, appdata);
+  guidata(figureHandle, appdata); # save data to figure
   UpdateCurrentEntryDisplay(appdata.UI.currentEntrySite,appdata.UI.currentEntryAction); # set entry display to current entryID
   UpdateDisplayedData(); # fill input fields with available data
 endfunction

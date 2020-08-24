@@ -24,8 +24,8 @@ function ShowSuppliedHouses(h,evt,switchcase)
             "TO: VH8 Straﬂe","TO: VH8 Hausnummer", ...
             "TO: VH9 Straﬂe","TO: VH9 Hausnummer", ...
             "TO: VH10 Straﬂe","TO: VH10 Hausnummer",};
-        defaults((i+(i-1))+3) = data.data.supplied.(genvarname(strcat("targetDBsuppliedEntry",num2str(data.UI.currentEntrySite))))(i+1,6); # i running from 1 to 10 should map for values between 4 and 22
-        defaults((i+1+(i-1))+3) = data.data.supplied.(genvarname(strcat("targetDBsuppliedEntry",num2str(data.UI.currentEntrySite))))(i+1,7); # i running from 1 to 10 should map for values between 5 and 23
+        defaults((i+(i-1))+3) = data.data.supplied.(genvarname(strcat("targetDBsuppliedEntry",num2str(data.UI.currentEntrySite))))(i+1,6); # i running from 1 to 10 should map for values between 4,6,8...22
+        defaults((i+1+(i-1))+3) = data.data.supplied.(genvarname(strcat("targetDBsuppliedEntry",num2str(data.UI.currentEntrySite))))(i+1,7); # i running from 1 to 10 should map for values between 5,7,9,...23
       endfor
     case 1
       for i = 11:1:20
@@ -40,8 +40,8 @@ function ShowSuppliedHouses(h,evt,switchcase)
             "TO: VH18 Straﬂe","TO: VH18 Hausnummer", ...
             "TO: VH19 Straﬂe","TO: VH19 Hausnummer", ...
             "TO: VH20 Straﬂe","TO: VH20 Hausnummer",};
-        defaults(((i-10)+((i-10)-1))+3) = data.data.supplied.(genvarname(strcat("targetDBsuppliedEntry",num2str(data.UI.currentEntrySite))))(i+1,6); # i running from 11 to 20 should map for values between 4 and 22
-        defaults(((i-10)+1+((i-10)-1))+3) = data.data.supplied.(genvarname(strcat("targetDBsuppliedEntry",num2str(data.UI.currentEntrySite))))(i+1,7);# i running from 11 to 20 should map for values between 5 and 23
+        defaults(((i-10)+((i-10)-1))+3) = data.data.supplied.(genvarname(strcat("targetDBsuppliedEntry",num2str(data.UI.currentEntrySite))))(i+1,6); # i running from 11 to 20 should map for values between 4,6,8...22
+        defaults(((i-10)+1+((i-10)-1))+3) = data.data.supplied.(genvarname(strcat("targetDBsuppliedEntry",num2str(data.UI.currentEntrySite))))(i+1,7);# i running from 11 to 20 should map for values between 5,7,9,...23
       endfor
     endswitch
               
@@ -76,4 +76,3 @@ function ShowSuppliedHouses(h,evt,switchcase)
   endif
   guidata(gcf,data); # save modified data to figure
 endfunction
-#
