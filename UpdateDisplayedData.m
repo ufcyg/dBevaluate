@@ -1,7 +1,7 @@
 ### updates contents of input fields to currently saved values in DB
 function UpdateDisplayedData
   data = guidata(gcf);
-    
+  set(data.UI.addressCknecessaryCkB,"value",data.data.site.targetDB(data.UI.currentEntrySite,26){}); ##checkbox flag
     ### CustomerName
   if !isempty(data.data.site.raw(data.UI.currentEntrySite,13){})
     set(data.UI.currentCustomerName,"title",strcat(data.data.site.raw(data.UI.currentEntrySite,13){}," (",num2str(data.data.site.targetDB(data.UI.currentEntrySite,4){}),")"));

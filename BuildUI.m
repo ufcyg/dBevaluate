@@ -111,7 +111,7 @@ function BuildUI(appdata)
                       "style","pushbutton",
                       "units","normalized",
                       "string", "Bearbeiten", 
-                      "position",[.95 .775 .05 .05],
+                      "position",[.95 .785 .05 .05],
                       "callback", {@ShowKundeLabbaseID});
   ###
   ####
@@ -145,6 +145,12 @@ function BuildUI(appdata)
                       "string", "Bearbeiten", 
                       "position",[.66 .1 .05 .05],
                       "callback", {@ShowSuppliedHouses,1});
+                      
+  appdata.UI.addressCknecessaryCkB = uicontrol(dataTargetBG,
+                                            "style","checkbox",
+                                            "units","normalized",
+                                            "position",[0.4 0.05 0.2 0.05],
+                                            "string","Anlagen Adresse unklar");
   
   guidata(figureHandle, appdata); # save data to figure
   UpdateCurrentEntryDisplay(appdata.UI.currentEntrySite,appdata.UI.currentEntryAction); # set entry display to current entryID

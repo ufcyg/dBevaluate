@@ -16,12 +16,25 @@ function SaveFields
   data.data.site.targetDB(data.UI.currentEntrySite,13) = get(data.UI.suppliedHouseNumber1,"string");
   ###LabbaseID
   data.data.site.targetDB(data.UI.currentEntrySite,8) = get(data.UI.kundeLabbaseID,"string");
+  ###AddressCkNecessary
+  data.data.site.targetDB(data.UI.currentEntrySite,26) = get(data.UI.addressCknecessaryCkB,"value");
   ### Versorgte Häuser
+  siteID = data.data.supplied.(genvarname(strcat("targetDBsuppliedEntry",num2str(data.UI.currentEntrySite))))(2,5){};
+  pcode = data.data.supplied.(genvarname(strcat("targetDBsuppliedEntry",num2str(data.UI.currentEntrySite))))(2,8){};
+  city = data.data.supplied.(genvarname(strcat("targetDBsuppliedEntry",num2str(data.UI.currentEntrySite))))(2,9){};
   for i=1:1:20
-    data.data.supplied.(genvarname(strcat("targetDBsuppliedEntry",num2str(data.UI.currentEntrySite))))(i+1,6) = get(data.UI.(genvarname(strcat("suppliedHouseStreet",num2str(i)))),"string");
-    data.data.supplied.(genvarname(strcat("targetDBsuppliedEntry",num2str(data.UI.currentEntrySite))))(i+1,7) = get(data.UI.(genvarname(strcat("suppliedHouseNumber",num2str(i)))),"string");
+    streetName = get(data.UI.(genvarname(strcat("suppliedHouseStreet",num2str(i)))),"string");
+    houseNumber = get(data.UI.(genvarname(strcat("suppliedHouseNumber",num2str(i)))),"string");
+    if !isempty(streetName) && !isempty(houseNumber)
+      ##write user input
+      data.data.supplied.(genvarname(strcat("targetDBsuppliedEntry",num2str(data.UI.currentEntrySite))))(i+1,6) = streetName;
+      data.data.supplied.(genvarname(strcat("targetDBsuppliedEntry",num2str(data.UI.currentEntrySite))))(i+1,7) = houseNumber;
+      ##copy down plz + ort + id
+      data.data.supplied.(genvarname(strcat("targetDBsuppliedEntry",num2str(data.UI.currentEntrySite))))(i+1,5) = siteID;
+      data.data.supplied.(genvarname(strcat("targetDBsuppliedEntry",num2str(data.UI.currentEntrySite))))(i+1,8) = pcode;
+      data.data.supplied.(genvarname(strcat("targetDBsuppliedEntry",num2str(data.UI.currentEntrySite))))(i+1,9) = city;
+    endif
   endfor
-
   guidata(gcf,data); # save modified data (for security reasons)
   #SaveData(); # saving to HDD disabled due to long waiting times
 endfunction
