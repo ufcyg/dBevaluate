@@ -18,6 +18,11 @@ function BuildUI(appdata)
   appdata.UI.currentCustomerName = uipanel(figureHandle,
                                   "Position",[ .25 0.96 .65 .03],
                                   "units","normalized");
+  appdata.UI.currentCustomerLastOfferID = uicontrol(figureHandle,
+                                                    "style","edit",
+                                                    "units","normalized",
+                                                    "string","-1",
+                                                    "position",[.8 0.96 .15 .03]);
   ###
   ####
   ####

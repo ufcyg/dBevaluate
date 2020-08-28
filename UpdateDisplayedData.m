@@ -2,9 +2,10 @@
 function UpdateDisplayedData
   data = guidata(gcf);
   set(data.UI.addressCknecessaryCkB,"value",data.data.site.targetDB(data.UI.currentEntrySite,26){}); ##checkbox flag
-    ### CustomerName
+    ### CustomerName ###add angebotsnummer!
   if !isempty(data.data.site.raw(data.UI.currentEntrySite,13){})
     set(data.UI.currentCustomerName,"title",strcat(data.data.site.raw(data.UI.currentEntrySite,13){}," (",num2str(data.data.site.targetDB(data.UI.currentEntrySite,4){}),")"));
+    set(data.UI.currentCustomerLastOfferID,"string",GetOfferID(data.data.site.targetDB(data.UI.currentEntrySite,4){}));
   endif
    ###Kontakt vor Ort
   if !isempty(data.data.site.targetDB(data.UI.currentEntrySite,17){})
